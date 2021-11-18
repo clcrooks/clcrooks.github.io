@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/* CSS Document */
+
+  
+body, input, select, textarea {
+		color: #585858;
+	
+	}
+
+body {
+background-color: #F0D2C1;
+	padding: 10%;
+	
+}
+
+
+h1 {
+	    
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 35pt;
+		font-weight: 300;
+		line-height: 1.75;
+		margin: 0 0 1em 0;
+
+	}
+
+p {	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 14pt;
+		font-weight: 300;
+		line-height: 1.75;
+	margin: 0 0 2em 0;
+}
+
+
+
+@media screen and (min-width: 80rem) {
+.bio {
+    padding-right: 4rem;
+    max-width: 60%;
+	float: left;
+  }
+	
+	
+	img{
+		display: block;
+	}	
+	
+	
+}
+
+img {
+  margin: 0rem 0 1.5rem;
+  max-width: 10rem;
+	 max-height: 25rem;
+	border-radius: 90px;
+opacity: 95%;
+}
+
+.img-place {
+
+}
+
+
+.paintings{
+  display: block;
+  width: 100%;
+  position: absolute;
+  bottom: -1rem;
+  font-size: .625rem;
+  text-transform: uppercase;
+  opacity: 0.6;
+  text-align: right;
+
+}
+
+.projects{
+   float:left;
+    width: 50%;
+  }
