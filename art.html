@@ -29,10 +29,6 @@
 		
 		
 	
-	
-	
-
-<!-- Gallery Container -->
 <div class="gallery-container">
     <div class="gallery">
         <figure class="painting">
@@ -85,7 +81,7 @@
     </div>
 </div>
 
-<style>
+<style>  /* Grid Responsiveness with the help of Claude*/
     /* Gallery Container */
     .gallery-container {
         max-width: 100%;
@@ -114,12 +110,12 @@
     
     /* Image Styling */
     .painting img {
-        height: 400px; /* Taller row height */
+        height: 400px; 
         width: auto;
         object-fit: cover;
         display: block;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
+        border-radius: 2px;
         transition: opacity 0.3s ease;
     }
     
@@ -130,9 +126,10 @@
     /* Caption Styling */
     figcaption {
         margin-top: 10px;
-        text-align: left; /* Left-aligned text */
+        margin-bottom: 20px;
+        text-align: left; 
         font-style: italic;
-        font-size: 14px;
+        font-size: 12px;
         color: #333;
         width: 100%;
     }
