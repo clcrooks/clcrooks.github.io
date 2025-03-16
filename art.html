@@ -32,75 +32,175 @@
 	
 	
 
-		
-	<main>
-		
-        <div class="gallery">
+<!-- Gallery Container -->
+<div class="gallery-container">
+    <div class="gallery">
+        <figure class="painting">
+            <a href="images/rock2.jpg" data-lightbox="paintings" data-title="Rock Collection 2">
+                <img src="images/rock2.jpg" alt="Rock Collection">
+            </a>
+            <figcaption>Rock Collection, oil on canvas</figcaption>
+        </figure>
         
-            <figure>
-                <a href="images/rock2.jpg" data-lightbox="paintings" data-title="Rock Collection 2">
-                    <img src="images/rock2.jpg" alt="Painting 1">
-                </a>
-                <figcaption>Rock Collection, oil on canvas</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="images/hunt.jpeg" data-lightbox="paintings" data-title="Huntington">
-                    <img src="images/hunt.jpeg" alt="Painting 2">
-                </a>
-                <figcaption>Huntington, oil on canvas</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="images/lightplsy copy.jpeg" data-lightbox="paintings" data-title="lightsplay">
-                    <img src="images/lightplsy copy.jpeg" alt="Painting 3">
-                </a>
-                <figcaption>Untitled, oil on canvas</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="images/origins.JPG" data-lightbox="paintings" data-title="Origins">
-                    <img src="images/origins.JPG" alt="Painting 4">
-                </a>
-                <figcaption>Origins, oil on canvas</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="images/ear.png" data-lightbox="paintings" data-title="Untitled, 2020">
-                    <img src="images/ear.png" alt="Painting 5">
-                </a>
-                <figcaption>Untitled, oil on canvas, 2020</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="images/lesea.jpg" data-lightbox="paintings" data-title="Untitled">
-                    <img src="images/lesea.jpg" alt="Painting 6">
-                </a>
-                <figcaption>Untitled, oil on canvas</figcaption>
-            </figure>
-           
+        <figure class="painting">
+            <a href="images/hunt.jpeg" data-lightbox="paintings" data-title="Huntington">
+                <img src="images/hunt.jpeg" alt="Huntington">
+            </a>
+            <figcaption>Huntington, oil on canvas</figcaption>
+        </figure>
+        
+        <figure class="painting">
+            <a href="images/lightplsy copy.jpeg" data-lightbox="paintings" data-title="lightsplay">
+                <img src="images/lightplsy copy.jpeg" alt="Lightsplay">
+            </a>
+            <figcaption>Untitled, oil on canvas</figcaption>
+        </figure>
+        
+        <figure class="painting">
+            <a href="images/origins.JPG" data-lightbox="paintings" data-title="Origins">
+                <img src="images/origins.JPG" alt="Origins">
+            </a>
+            <figcaption>Origins, oil on canvas</figcaption>
+        </figure>
+        
+        <figure class="painting">
+            <a href="images/ear.png" data-lightbox="paintings" data-title="Untitled, 2020">
+                <img src="images/ear.png" alt="Ear painting">
+            </a>
+            <figcaption>Untitled, oil on canvas, 2020</figcaption>
+        </figure>
+        
+        <figure class="painting">
+            <a href="images/lesea.jpg" data-lightbox="paintings" data-title="Untitled">
+                <img src="images/lesea.jpg" alt="Sea painting">
+            </a>
+            <figcaption>Untitled, oil on canvas</figcaption>
+        </figure>
+        <figure class="painting">
+            <a href="images/floor copy 2.jpeg" data-lightbox="paintings" data-title="Untitled">
+                <img src="images/floor copy 2.jpeg" alt="x">
+            </a>
+            <figcaption>Untitled, oil on canvas</figcaption>
+        </figure>
+    </div>
+</div>
 
-        </div>
-            
-
-          
-
-
-       
-    </main>
-
-
-
+<style>
+    /* Gallery Container */
+    .gallery-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+    }
     
+    /* Gallery Layout - Flexbox for consistent row heights */
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: flex-start; /* Left alignment */
+    }
+    
+    /* Individual Painting Container */
+    .painting {
+        margin: 0;
+        padding: 0;
+        flex-grow: 0; /* Don't grow to fill space */
+        position: relative;
+        transition: transform 0.3s ease;
+    }
+    
+   
+    
+    /* Image Styling */
+    .painting img {
+        height: 400px; /* Taller row height */
+        width: auto;
+        object-fit: cover;
+        display: block;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        transition: opacity 0.3s ease;
+    }
+    
+    .painting img:hover {
+        opacity: 0.9;
+    }
+    
+    /* Caption Styling */
+    figcaption {
+        margin-top: 10px;
+        text-align: left; /* Left-aligned text */
+        font-style: italic;
+        font-size: 14px;
+        color: #333;
+        width: 100%;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .painting img {
+            height: 300px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .gallery {
+            display: block;
+        }
+        
+        .painting {
+            margin-bottom: 20px;
+        }
+        
+        .painting img {
+            width: 100%;
+            height: auto;
+        }
+    }
+</style>
 
-	
-	<footer> 
-
-		
-		</footer>	
-	
-	
-</body>
-
-
-</html>
+<script>
+    // Script to adjust image widths based on their aspect ratio
+    document.addEventListener('DOMContentLoaded', function() {
+        const paintings = document.querySelectorAll('.painting');
+        
+        // Calculate width for each image based on its aspect ratio
+        function adjustImageWidths() {
+            paintings.forEach(painting => {
+                const img = painting.querySelector('img');
+                
+                if (img.complete) {
+                    // Calculate aspect ratio
+                    const aspectRatio = img.naturalWidth / img.naturalHeight;
+                    
+                    // Set width based on the target height (400px)
+                    const targetWidth = 400 * aspectRatio;
+                    
+                    // Add extra width for landscape images
+                    if (aspectRatio > 1) {
+                        // For landscape: give proportionally more width
+                        painting.style.flexBasis = `${targetWidth}px`;
+                    } else {
+                        // For portrait: give standard width
+                        painting.style.flexBasis = `${targetWidth}px`;
+                    }
+                }
+            });
+        }
+        
+        // Run when images are loaded
+        paintings.forEach(painting => {
+            const img = painting.querySelector('img');
+            if (img.complete) {
+                adjustImageWidths();
+            } else {
+                img.onload = adjustImageWidths;
+            }
+        });
+        
+        // Re-adjust on window resize
+        window.addEventListener('resize', adjustImageWidths);
+    });
+</script>
+       
