@@ -12,24 +12,26 @@ body, input, select, button, textarea {
 
 body {
 
-	
+	background-color: #FFFDF8;
 	
 	font-family: "Source Sans Pro", Helvetica, sans-serif;
 padding: 4%;
 }
 
 a {
-	
-color: black;
-text-decoration: none;
+color:#000000;
+text-decoration-color: #cdc3bd
+
 }
 
+
 a:hover {
-	
-	color: #703411;
-	text-decoration:underline;
+    color:#000000;
+    text-decoration-color: #cdc3bd
 	}
 
+    a.one:link {text-decoration:underline; text-decoration-color: #cdc3bd;}
+a.one:hover { background-color: #eee6e1;}
 
 h1 {
 	    
