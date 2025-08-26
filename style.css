@@ -4,19 +4,36 @@
   box-sizing: border-box;
 }
   
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 body, input, select, button, textarea {
 		color: #000000
 			;
 	
 	}
 
-body {
-
-	background-color: #FFFDF8;
-	
-	font-family: "Source Sans Pro", Helvetica, sans-serif;
-padding: 4%;
-}
+    body {
+        font-family: 'Space Grotesk', sans-serif; 
+        font-weight: 400;
+        background-color: #FFFDF8;
+        padding: 4%;
+    }
+    
+    .default-text  {
+    
+        font-family: 'Space Grotesk', sans-serif; 
+        font-weight: 1600;
+        font-size: 2em;
+        letter-spacing: -0.01em;
+    }
+    
+    .circle-text {
+    font-family: 'JetBrains Mono', monospace; 
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    }
+    
 
 a {
 color:#000000;
@@ -35,25 +52,23 @@ a.one:hover { background-color: #eee6e1;}
 
 h1 {
 	    
-	font-family: "Source Sans Pro", Helvetica, sans-serif;
 		font-size: 12pt;
 		font-weight: 400;
 		line-height: 1.75;
 		margin: 0 0 1em 0;
-    padding-left: ;
+   
 	}
 
 h2 {
 	    
-	font-family: "Source Sans Pro", Helvetica, sans-serif;
 		font-size: 12pt;
 		font-weight: 300;
 		line-height: 1.75;
 		margin: 0 0 1em 0;
-    padding-left: ;
+    
 	}
 
-p {	font-family: "Source Sans Pro", Helvetica, sans-serif;
+p {	
 		font-size: 12pt;
 		font-weight: 300;
 		line-height: 1.75;
@@ -64,56 +79,126 @@ p {	font-family: "Source Sans Pro", Helvetica, sans-serif;
 
 
 
+
 	
 .bio {
 	float: left;
 	max-width: 50%;
-	
+    padding-right: 5%;
+
   }
 
-
-
-
-
-.grid-container {
-	float: left;
+  .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
 
 .grid-item {
-    background: #FFFDF8;
-    padding: 0.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
-.grid-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.image-container {
+    position: relative;
+    height: 600px; 
+    overflow: hidden;
+    border-radius: 5px; 
+   
 }
 
-.grid-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 2px;
+.image-container img {
+  filter: grayscale(80%)   ;  
+  filter:saturate(50%);   
+  filter: brightness(70%);   
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This crops the image to fill the container */
+    object-position: center; /* Centers the crop */
+    display: block;
+    transition: transform 0.3s ease;
+    opacity:.6;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    text-align: center;
+}
+
+.image-container:hover .overlay {
+    opacity: 1;
+}
+
+.image-container:hover img {
+    transform: scale(1.05);
+    opacity:.9; 
 }
 
 
+.overlay .title {
+    font-size: 1em;
+    margin-bottom: 10px;
+    padding: 5%;
+}
 
-.grid-item .title {
-    margin-top: 0.5rem;
-    font-size: 1rem;
-    
+.overlay .circle-text {
+    display: inline-block;
+    padding: 4px 6px;
+    border: 2px solid white;
+    border-radius: 50px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.default-text {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);  /* Centers horizontally */
+    text-align: center;
+    display: flex;
+    font-size: 2em;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    color: white;
+   
+}
+
+.default-bottom-text {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);  /* Centers horizontally */
+    text-align: center;
+    display: flex;
+    font-size: 2em;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    color: white;
+   
 }
 
 
+.image-container:hover .default-text {
+    opacity: .0;
+}
 
-
+.image-container:hover .default-bottom-text {
+    opacity: .0;
+}
 .gallery {
     float:left;
     display: grid;
@@ -141,7 +226,7 @@ p {	font-family: "Source Sans Pro", Helvetica, sans-serif;
 figcaption {
     font-family: "Source Sans Pro", Helvetica, sans-serif;
 		font-size: 12pt;
-		font-weight: 300;
+		
 		line-height: 1.75;
 	
     text-align: left;
@@ -172,6 +257,75 @@ figcaption {
     z-index: -1;
 }
 
-/*@media screen and (min-width: 80rem) 
-	
-	
+.portfolio-tabs {
+    clear: left;
+    justify-content: flex-start;
+    margin: 40px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tab {
+    padding: 15px 30px;
+    margin: 0 10px;
+    text-decoration: none;
+    color: #666;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    color: #000;
+    border-bottom-color: #333;
+}
+
+.tab:hover {
+    color: #000;
+    border-bottom-color: #ccc;
+}
+
+
+.content-panel {
+    display: none;
+}
+
+.content-panel.active {
+    display: block;
+}
+
+.content-panel.active {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+
+.in-progress {
+    font-size: .9em;
+    font-weight: lighter;
+    color: #000000;
+    animation: gentleFlash 2s ease-in-out infinite;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline;
+}
+
+
+
+
+
+@keyframes gentleFlash {
+    0%, 100% {
+        opacity: .8;
+    }
+    50% {
+        opacity: 0.2;
+    }
+}
+.in-progress {
+    animation: gentleFlash 3s ease-in-out infinite;
+}
