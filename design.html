@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+	<title>Design & Research — Carey Linda Crooks</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+
+		body {
+			font-family: 'Inter', 'Space Grotesk', sans-serif;
+			font-weight: 400;
+			background-color: #fefdf9;
+			color: #2c2420;
+			height: 100vh;
+			overflow: hidden;
+			display: flex;
+		}
+
+		a { color: #2c2420; text-decoration: none; }
+		a:hover { text-decoration: underline; text-decoration-color: #c4b5aa; }
+
+		/* ── Left text panel ───────────────────────────── */
+		.text-panel {
+			width: 40%;
+			height: 100vh;
+			position: fixed;
+			left: 0;
+			top: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			padding: 90px 60px 60px 80px;
+			border-right: 1px solid rgba(92, 74, 61, 0.12);
+		}
+
+		.back-link {
+			position: absolute;
+			top: 36px;
+			left: 80px;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.back-link:hover { color: rgba(44, 36, 32, 0.7); }
+
+		.series-label {
+			font-size: 11px;
+			font-weight: 400;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.3);
+			margin-bottom: 12px;
+		}
+
+		.series-title {
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 1.3;
+			letter-spacing: 0;
+			color: rgba(44, 36, 32, 0.7);
+			margin-bottom: 24px;
+		}
+
+		.series-description {
+			font-size: 14px;
+			line-height: 1.65;
+			color: rgba(44, 36, 32, 0.5);
+			max-width: 400px;
+			margin-bottom: 36px;
+		}
+
+		.series-meta {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.series-meta dt {
+			font-size: 10px;
+			font-weight: 400;
+			letter-spacing: 1px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.series-meta dd {
+			font-size: 13px;
+			line-height: 1.4;
+			color: rgba(44, 36, 32, 0.55);
+		}
+
+		/* ── Right image panel ─────────────────────────── */
+		.image-panel {
+			width: 60%;
+			margin-left: 40%;
+			height: 100vh;
+			overflow-y: auto;
+			padding: 60px 60px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.image-panel::-webkit-scrollbar { width: 0; }
+
+		/* In graph mode, disable scroll so canvas fills the space */
+		.image-panel.graph-mode {
+			overflow: hidden;
+		}
+
+		/* ── Panel header: caption + view toggle ───────── */
+		.panel-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-bottom: 24px;
+			margin-bottom: 48px;
+			border-bottom: 1px solid rgba(92, 74, 61, 0.12);
+			flex-shrink: 0;
+		}
+
+		.panel-caption {
+			font-size: 10px;
+			font-weight: 400;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.25);
+		}
+
+		.view-toggle {
+			display: flex;
+			gap: 0;
+		}
+
+		.toggle-btn {
+			font-family: 'Inter', sans-serif;
+			font-size: 10px;
+			font-weight: 400;
+			letter-spacing: 1px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.25);
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 0 12px;
+			border-radius: 2px;
+			transition: color 0.15s ease, background 0.15s ease;
+		}
+
+		.toggle-btn.active {
+			color: rgba(44, 36, 32, 0.65);
+			background: rgba(44, 36, 32, 0.05);
+		}
+
+		.toggle-btn:hover:not(.active) {
+			color: rgba(44, 36, 32, 0.45);
+		}
+
+		/* ── List view ─────────────────────────────────── */
+		.list-view {
+			overflow-y: auto;
+			flex: 1;
+		}
+
+		.list-view::-webkit-scrollbar { width: 0; }
+
+		.series-entry {
+			margin-bottom: 72px;
+		}
+
+		.series-entry:last-child {
+			margin-bottom: 80px;
+		}
+
+		.series-entry > a {
+			display: block;
+		}
+
+		.series-entry > a:hover { text-decoration: none; }
+
+		.series-entry img {
+			width: 100%;
+			height: 360px;
+			object-fit: cover;
+			display: block;
+			transition: opacity 0.2s ease;
+		}
+
+		.series-entry > a:hover img {
+			opacity: 0.88;
+		}
+
+		.img-wrap {
+			position: relative;
+			display: block;
+		}
+
+		.img-credit {
+			position: absolute;
+			bottom: 8px;
+			right: 10px;
+			font-size: 9px;
+			letter-spacing: 0.5px;
+			color: rgba(255, 255, 255, 0.45);
+			pointer-events: none;
+		}
+
+		.entry-meta {
+			margin-top: 12px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.entry-title {
+			font-size: 14px;
+			font-weight: 400;
+			letter-spacing: 0;
+			color: rgba(44, 36, 32, 0.65);
+		}
+
+		.entry-year {
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.entry-description {
+			font-size: 12px;
+			line-height: 1.6;
+			color: rgba(44, 36, 32, 0.45);
+			max-width: 520px;
+		}
+
+		.series-entry--soon {
+			opacity: 0.4;
+			pointer-events: none;
+		}
+
+		.entry-coming-soon {
+			display: inline-block;
+			margin-top: 12px;
+			font-size: 10px;
+			letter-spacing: 1px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.45);
+		}
+
+		.entry-link {
+			display: inline-block;
+			margin-top: 12px;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+			text-decoration: underline;
+			text-decoration-color: rgba(196, 181, 170, 0.4);
+			text-underline-offset: 3px;
+			transition: color 0.15s ease, text-decoration-color 0.15s ease;
+		}
+
+		.series-entry > a:hover .entry-link {
+			color: rgba(44, 36, 32, 0.7);
+			text-decoration-color: rgba(44, 36, 32, 0.4);
+		}
+
+		/* ── Graph view ────────────────────────────────── */
+		.graph-view {
+			display: none;
+			flex: 1;
+			/* Extend beyond panel padding to fill edge-to-edge */
+			margin: 0 -60px -60px;
+			position: relative;
+		}
+
+		.graph-view canvas {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			cursor: grab;
+		}
+
+		.graph-view canvas:active { cursor: grabbing; }
+
+		/* Graph legend */
+		.graph-legend {
+			position: absolute;
+			top: 24px;
+			right: 24px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			font-size: 11px;
+			letter-spacing: 0.5px;
+			color: rgba(44, 36, 32, 0.45);
+			pointer-events: none;
+			z-index: 2;
+		}
+
+		.legend-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.legend-dot {
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			opacity: 0.75;
+		}
+
+		/* Graph disclaimer */
+		.graph-disclaimer {
+			position: absolute;
+			bottom: 20px;
+			left: 24px;
+			font-size: 10px;
+			letter-spacing: 0.8px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.2);
+			pointer-events: none;
+			z-index: 2;
+		}
+
+		/* Graph tooltip */
+		.graph-tooltip {
+			position: fixed;
+			pointer-events: none;
+			background: #2c2420;
+			color: #fefdf9;
+			padding: 12px 16px;
+			font-size: 13px;
+			line-height: 1.5;
+			max-width: 260px;
+			opacity: 0;
+			transition: opacity 0.15s ease;
+			z-index: 100;
+		}
+
+		.graph-tooltip.visible { opacity: 1; }
+
+		.tooltip-title {
+			font-weight: 600;
+		}
+
+		.tooltip-tags {
+			color: #c4b5aa;
+			font-size: 11px;
+			letter-spacing: 0.5px;
+			margin-top: 12px;
+		}
+
+		/* ── Responsive ────────────────────────────────── */
+		@media (max-width: 768px) {
+			body {
+				flex-direction: column;
+				height: auto;
+				overflow: auto;
+			}
+
+			.text-panel {
+				width: 100%;
+				height: auto;
+				position: relative;
+				padding: 80px 30px 40px;
+				border-right: none;
+				border-bottom: 1px solid rgba(92, 74, 61, 0.12);
+			}
+
+			.back-link { left: 24px; top: 24px; }
+
+			.series-title { font-size: 16px; }
+
+			.image-panel {
+				width: 100%;
+				margin-left: 0;
+				height: auto;
+				overflow: visible;
+				padding: 30px;
+			}
+
+			.graph-view {
+				height: 70vw;
+				min-height: 320px;
+				margin: 0 -30px -30px;
+				flex: none;
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<div class="text-panel">
+		<a href="index-v9.html" class="back-link">&larr; Back</a>
+
+		<p class="series-label">Design & Research Portfolio</p>
+		<h1 class="series-title">Carey Linda Crooks</h1>
+
+		<p class="series-description">Tools and installations prototyping human interaction with complex systems.</p>
+
+		<dl class="series-meta">
+			<div>
+				<dt>Focus</dt>
+				<dd>Product design, participatory research, interactive installation, HCI, creativity research</dd>
+			</div>
+			<div>
+				<dt>Collaborators</dt>
+				<dd><a href="https://poieto.com" target="_blank">POIETO</a>, POIETO PROJECTS, Select Clients</dd>
+			</div>
+		</dl>
+	</div>
+
+	<div class="image-panel" id="imagePanel">
+
+		<div class="panel-header">
+			<span class="panel-caption">Recent projects</span>
+			<div class="view-toggle">
+				<button class="toggle-btn active" data-view="list" id="btnList">List</button>
+				<button class="toggle-btn" data-view="graph" id="btnGraph">Graph</button>
+			</div>
+		</div>
+
+		<!-- List view -->
+		<div class="list-view" id="listView">
+
+			<div class="series-entry">
+				<a href="animatingkindness.html">
+					<div class="img-wrap">
+						<img src="images/animatingkindness.JPG" alt="Animating Kindness">
+						<span class="img-credit">Photo: Ginny Song</span>
+					</div>
+					<div class="entry-meta">
+						<span class="entry-title">Animating Kindness</span>
+						<span class="entry-year">Los Angeles, 2024</span>
+						<p class="entry-description">International collaboration prototyping philanthropic model shaping; sourcing a values-driven dataset through participatory workshops and digital experiences.</p>
+						<span class="entry-link">View project &rarr;</span>
+					</div>
+				</a>
+			</div>
+
+			<div class="series-entry">
+				<a href="transformingtransmissions.html">
+					<img src="images/tt-sensor.png" alt="Transforming Transmissions">
+					<div class="entry-meta">
+						<span class="entry-title">Transforming Transmissions</span>
+						<span class="entry-year">Berlin, 2024</span>
+						<p class="entry-description">A generative sonic sculpture exploring ownership, copyright, and consent as sound evolves from transmission to reception.</p>
+						<span class="entry-link">View project &rarr;</span>
+					</div>
+				</a>
+			</div>
+
+			<div class="series-entry">
+				<a href="contextualnormalcy.html">
+					<img src="images/cn-cover.png" alt="Contextual Normalcy">
+					<div class="entry-meta">
+						<span class="entry-title">Contextual Normalcy</span>
+						<span class="entry-year">Los Angeles, 2022</span>
+						<p class="entry-description">Participatory AI research project using ML and crowd-sourced data to create alternative visions of normalcy in feeling and wellbeing.</p>
+						<span class="entry-link">View project &rarr;</span>
+					</div>
+				</a>
+			</div>
+
+			<div class="series-entry">
+				<a href="artsearch.html">
+					<img src="images/artsearchcover.png" alt="Art Search">
+					<div class="entry-meta">
+						<span class="entry-title">Art Search</span>
+						<span class="entry-year">Los Angeles, 2022</span>
+						<p class="entry-description">Interfaces for an archival search project framing ML and facial recognition as both artifacts and archaeological tools.</p>
+						<span class="entry-link">View project &rarr;</span>
+					</div>
+				</a>
+			</div>
+
+			<div class="series-entry series-entry--soon">
+				<div>
+					<img src="images/aied-cover.png" alt="AI x Education">
+					<div class="entry-meta">
+						<span class="entry-title">AI x Education</span>
+						<span class="entry-year">Los Angeles</span>
+						<p class="entry-description">Accessible ML education toolkit with interactive software and model interfaces, designed working with artist educators for K–12 and higher ed students.</p>
+						<span class="entry-coming-soon">Coming soon</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="series-entry series-entry--soon">
+				<div>
+					<img src="images/poieto-cover.png" alt="Responsible Data Collection for AI">
+					<div class="entry-meta">
+						<span class="entry-title">Responsible Data Collection for AI</span>
+						<span class="entry-year">New York</span>
+						<p class="entry-description">Product strategy anchoring in fair data; redesigning core user flows and architecture for scalable, values-driven model formation.</p>
+						<span class="entry-coming-soon">Coming soon</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Graph view -->
+		<div class="graph-view" id="graphView">
+			<canvas id="graphCanvas"></canvas>
+			<div class="graph-legend">
+				<div class="legend-item"><div class="legend-dot" style="background:#b07d62"></div>Product Design</div>
+				<div class="legend-item"><div class="legend-dot" style="background:#6b8f7b"></div>Installation</div>
+			</div>
+			<p class="graph-disclaimer">In progress &middot; Built with Claude Sonnet 4.6</p>
+		</div>
+
+	</div>
+
+	<!-- Graph tooltip -->
+	<div class="graph-tooltip" id="graphTooltip">
+		<div class="tooltip-title" id="tooltipTitle"></div>
+		<div id="tooltipDesc"></div>
+		<div class="tooltip-tags" id="tooltipTags"></div>
+	</div>
+
+	<script>
+	// ── View toggle ───────────────────────────────────────────────
+	const imagePanel = document.getElementById('imagePanel');
+	const listView   = document.getElementById('listView');
+	const graphView  = document.getElementById('graphView');
+	const btnList    = document.getElementById('btnList');
+	const btnGraph   = document.getElementById('btnGraph');
+
+	btnList.addEventListener('click', () => {
+		btnList.classList.add('active');
+		btnGraph.classList.remove('active');
+		listView.style.display = '';
+		graphView.style.display = 'none';
+		imagePanel.classList.remove('graph-mode');
+	});
+
+	btnGraph.addEventListener('click', () => {
+		btnGraph.classList.add('active');
+		btnList.classList.remove('active');
+		listView.style.display = 'none';
+		graphView.style.display = 'flex';
+		imagePanel.classList.add('graph-mode');
+		// Re-initialise canvas size on first show
+		resizeCanvas();
+		if (!loopStarted) startLoop();
+	});
+
+	// ── Graph ─────────────────────────────────────────────────────
+	const canvas  = document.getElementById('graphCanvas');
+	const ctx     = canvas.getContext('2d');
+	const tooltip = document.getElementById('graphTooltip');
+	const ttTitle = document.getElementById('tooltipTitle');
+	const ttDesc  = document.getElementById('tooltipDesc');
+	const ttTags  = document.getElementById('tooltipTags');
+	const dpr     = window.devicePixelRatio || 1;
+
+	function resizeCanvas() {
+		const rect = canvas.getBoundingClientRect();
+		if (rect.width === 0 || rect.height === 0) return;
+		canvas.width  = rect.width  * dpr;
+		canvas.height = rect.height * dpr;
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+	}
+
+	window.addEventListener('resize', resizeCanvas);
+
+	// Project nodes — connected by shared tags
+	const nodes = [
+		{
+			id: 'animating-kindness',
+			label: 'Animating\nKindness',
+			category: 'installation',
+			tags: ['AI', 'data ethics', 'participatory', 'GPT-4', 'philanthropy'],
+			subtitle: 'Prototyping philanthropic model shaping',
+			href: 'animatingkindness.html',
+			x: 0, y: 0, vx: 0, vy: 0
+		},
+		{
+			id: 'transforming-transmissions',
+			label: 'Transforming\nTransmissions',
+			category: 'installation',
+			tags: ['AI', 'data ethics', 'consent', 'sound', 'GPT-4', 'generative'],
+			subtitle: 'Nuanced data sharing for generative media',
+			href: 'transformingtransmissions.html',
+			x: 0, y: 0, vx: 0, vy: 0
+		},
+		{
+			id: 'contextual-normalcy',
+			label: 'Contextual\nNormalcy',
+			category: 'installation',
+			tags: ['AI', 'ML', 'participatory', 'sound', 'wellbeing'],
+			subtitle: 'Audio-visual experience for emotional release',
+			href: 'contextualnormalcy.html',
+			x: 0, y: 0, vx: 0, vy: 0
+		},
+		{
+			id: 'art-search',
+			label: 'Art\nSearch',
+			category: 'installation',
+			tags: ['AI', 'ML', 'bias', 'archival', 'React'],
+			subtitle: 'Interfaces for archival search using DeepFace',
+			href: 'artsearch.html',
+			x: 0, y: 0, vx: 0, vy: 0
+		},
+		{
+			id: 'ai-education',
+			label: 'Learning\nInterfaces',
+			category: 'product',
+			tags: ['AI', 'education', 'ML', 'curriculum'],
+			subtitle: 'ML education toolkit for students',
+			href: 'aixeducation.html',
+			soon: true,
+			x: 0, y: 0, vx: 0, vy: 0
+		},
+		{
+			id: 'responsible-data',
+			label: 'Responsible\nData Collection',
+			category: 'product',
+			tags: ['AI', 'data ethics', 'product strategy', 'React'],
+			subtitle: 'Fair data strategy for AI',
+			href: 'responsibledata.html',
+			soon: true,
+			x: 0, y: 0, vx: 0, vy: 0
+		}
+	];
+
+	const COLORS = { product: '#b07d62', installation: '#6b8f7b' };
+
+	// Compute edges from shared tags
+	const edges = [];
+	for (let i = 0; i < nodes.length; i++) {
+		for (let j = i + 1; j < nodes.length; j++) {
+			const shared = nodes[i].tags.filter(t => nodes[j].tags.includes(t));
+			if (shared.length > 0) edges.push({ source: i, target: j, weight: shared.length, tags: shared });
+		}
+	}
+
+	function W() { return canvas.width  / dpr; }
+	function H() { return canvas.height / dpr; }
+
+	function initPositions() {
+		const cx = W() / 2;
+		const cy = H() / 2;
+		const spread = Math.min(W(), H()) * 0.28;
+		nodes.forEach((n, i) => {
+			const angle = (i / nodes.length) * Math.PI * 2;
+			n.x = cx + Math.cos(angle) * spread + (Math.random() - 0.5) * 40;
+			n.y = cy + Math.sin(angle) * spread + (Math.random() - 0.5) * 40;
+		});
+	}
+
+	const SIM = { repulsion: 2800, attraction: 0.008, edgeLength: 160, damping: 0.85, centerGravity: 0.003 };
+
+	function simulate() {
+		const cx = W() / 2;
+		const cy = H() / 2;
+
+		for (let i = 0; i < nodes.length; i++) {
+			for (let j = i + 1; j < nodes.length; j++) {
+				let dx = nodes[j].x - nodes[i].x;
+				let dy = nodes[j].y - nodes[i].y;
+				let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+				let force = SIM.repulsion / (dist * dist);
+				nodes[i].vx -= (dx / dist) * force;
+				nodes[i].vy -= (dy / dist) * force;
+				nodes[j].vx += (dx / dist) * force;
+				nodes[j].vy += (dy / dist) * force;
+			}
+		}
+
+		edges.forEach(e => {
+			const a = nodes[e.source], b = nodes[e.target];
+			let dx = b.x - a.x, dy = b.y - a.y;
+			let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+			let displacement = dist - SIM.edgeLength / e.weight;
+			let strength = SIM.attraction * e.weight;
+			a.vx += (dx / dist) * displacement * strength;
+			a.vy += (dy / dist) * displacement * strength;
+			b.vx -= (dx / dist) * displacement * strength;
+			b.vy -= (dy / dist) * displacement * strength;
+		});
+
+		nodes.forEach(n => {
+			n.vx += (cx - n.x) * SIM.centerGravity;
+			n.vy += (cy - n.y) * SIM.centerGravity;
+		});
+
+		nodes.forEach(n => {
+			if (n === dragNode) return;
+			n.vx *= SIM.damping;
+			n.vy *= SIM.damping;
+			n.x += n.vx;
+			n.y += n.vy;
+			const pad = 50;
+			n.x = Math.max(pad, Math.min(W() - pad, n.x));
+			n.y = Math.max(pad, Math.min(H() - pad, n.y));
+		});
+	}
+
+	// RGBA base colors for radial gradient
+	const COLOR_RGBA = {
+		product:      'rgba(176, 125, 98,',
+		installation: 'rgba(107, 143, 123,'
+	};
+
+	function getNodeRadius(node) { return node.tags.length * 3 + 12; }
+
+	function draw() {
+		ctx.clearRect(0, 0, W(), H());
+
+		edges.forEach(e => {
+			const a = nodes[e.source], b = nodes[e.target];
+			const isHighlight = hoverNode && (a === hoverNode || b === hoverNode);
+			ctx.beginPath();
+			ctx.moveTo(a.x, a.y);
+			ctx.lineTo(b.x, b.y);
+			if (isHighlight) {
+				ctx.strokeStyle = `rgba(44,36,32,${0.15 + e.weight * 0.08})`;
+				ctx.lineWidth = 1 + e.weight * 0.5;
+			} else if (hoverNode) {
+				ctx.strokeStyle = 'rgba(44,36,32,0.04)';
+				ctx.lineWidth = 1;
+			} else {
+				ctx.strokeStyle = `rgba(44,36,32,${0.06 + e.weight * 0.04})`;
+				ctx.lineWidth = 1;
+			}
+			ctx.stroke();
+
+			if (isHighlight && e.weight > 1) {
+				ctx.font = '10px Inter, sans-serif';
+				ctx.fillStyle = 'rgba(44,36,32,0.3)';
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'middle';
+				ctx.fillText(e.weight, (a.x + b.x) / 2, (a.y + b.y) / 2 - 8);
+			}
+		});
+
+		nodes.forEach(node => {
+			const r = getNodeRadius(node);
+			const isHover = node === hoverNode;
+			const isConnected = hoverNode && edges.some(e =>
+				(nodes[e.source] === hoverNode && nodes[e.target] === node) ||
+				(nodes[e.target] === hoverNode && nodes[e.source] === node)
+			);
+			const dimmed = hoverNode && !isHover && !isConnected;
+			const base = COLOR_RGBA[node.category];
+
+			// Soon nodes are always faint
+			const baseAlpha = node.soon ? 0.25 : (isHover ? 1 : dimmed ? 0.2 : 0.75);
+			ctx.globalAlpha = baseAlpha;
+
+			// Radial gradient from opaque center to transparent edge
+			const grad = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r);
+			grad.addColorStop(0,   base + (isHover && !node.soon ? '0.95)' : '0.85)'));
+			grad.addColorStop(0.5, base + '0.45)');
+			grad.addColorStop(1,   base + '0)');
+
+			ctx.beginPath();
+			ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+			ctx.fillStyle = grad;
+			ctx.fill();
+
+			const lines = node.label.split('\n');
+			ctx.globalAlpha = node.soon ? 0.3 : (isHover ? 1 : dimmed ? 0.2 : 0.85);
+			ctx.font = '400 11px Inter, sans-serif';
+			ctx.fillStyle = 'rgba(44,36,32,0.6)';
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle';
+			const lineH = 14;
+			const startY = node.y + r + 12 - ((lines.length - 1) * lineH) / 2;
+			lines.forEach((line, i) => ctx.fillText(line, node.x, startY + i * lineH));
+
+			// "Soon" label below node name
+			if (node.soon) {
+				ctx.globalAlpha = 0.3;
+				ctx.font = '400 9px Inter, sans-serif';
+				ctx.fillStyle = 'rgba(44,36,32,0.5)';
+				ctx.fillText('Coming soon', node.x, startY + lines.length * lineH + 2);
+			}
+
+			ctx.globalAlpha = 1;
+		});
+	}
+
+	let hoverNode = null, dragNode = null, dragOffset = { x: 0, y: 0 };
+
+	function getNodeAt(mx, my) {
+		for (let i = nodes.length - 1; i >= 0; i--) {
+			const n = nodes[i];
+			if (n.soon) continue;
+			const r = getNodeRadius(n);
+			if (Math.hypot(mx - n.x, my - n.y) <= r + 6) return n;
+		}
+		return null;
+	}
+
+	canvas.addEventListener('mousemove', e => {
+		const rect = canvas.getBoundingClientRect();
+		const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+
+		if (dragNode) {
+			dragNode.x = mx - dragOffset.x;
+			dragNode.y = my - dragOffset.y;
+			dragNode.vx = dragNode.vy = 0;
+			return;
+		}
+
+		const node = getNodeAt(mx, my);
+		hoverNode = node;
+		canvas.style.cursor = node ? 'pointer' : 'grab';
+
+		if (node) {
+			const connected = edges.filter(e => nodes[e.source] === node || nodes[e.target] === node);
+			const allTags = [...new Set(connected.flatMap(e => e.tags))];
+			ttTitle.textContent = node.label.replace('\n', ' ');
+			ttDesc.textContent  = node.subtitle;
+			ttTags.textContent  = allTags.join(' · ');
+			tooltip.classList.add('visible');
+			let tx = e.clientX + 16, ty = e.clientY + 16;
+			if (tx + 260 > window.innerWidth)  tx = e.clientX - 276;
+			if (ty + 100 > window.innerHeight) ty = e.clientY - 100;
+			tooltip.style.left = tx + 'px';
+			tooltip.style.top  = ty + 'px';
+		} else {
+			tooltip.classList.remove('visible');
+		}
+	});
+
+	canvas.addEventListener('mousedown', e => {
+		const rect = canvas.getBoundingClientRect();
+		const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+		const node = getNodeAt(mx, my);
+		if (node) { dragNode = node; dragOffset.x = mx - node.x; dragOffset.y = my - node.y; canvas.style.cursor = 'grabbing'; }
+	});
+
+	canvas.addEventListener('mouseup',    () => { dragNode = null; });
+	canvas.addEventListener('mouseleave', () => { hoverNode = dragNode = null; tooltip.classList.remove('visible'); });
+
+	// Touch events — drag nodes, tap to navigate
+	let touchStartPos = null;
+
+	canvas.addEventListener('touchstart', e => {
+		e.preventDefault();
+		const touch = e.touches[0];
+		const rect = canvas.getBoundingClientRect();
+		const mx = touch.clientX - rect.left, my = touch.clientY - rect.top;
+		touchStartPos = { x: touch.clientX, y: touch.clientY };
+		const node = getNodeAt(mx, my);
+		if (node) { dragNode = node; dragOffset.x = mx - node.x; dragOffset.y = my - node.y; }
+	}, { passive: false });
+
+	canvas.addEventListener('touchmove', e => {
+		e.preventDefault();
+		if (!dragNode) return;
+		const touch = e.touches[0];
+		const rect = canvas.getBoundingClientRect();
+		dragNode.x = touch.clientX - rect.left - dragOffset.x;
+		dragNode.y = touch.clientY - rect.top  - dragOffset.y;
+		dragNode.vx = dragNode.vy = 0;
+	}, { passive: false });
+
+	canvas.addEventListener('touchend', e => {
+		if (dragNode && touchStartPos) {
+			const t = e.changedTouches[0];
+			const moved = Math.hypot(t.clientX - touchStartPos.x, t.clientY - touchStartPos.y);
+			if (moved < 8) window.location.href = dragNode.href;
+		}
+		dragNode = null;
+		touchStartPos = null;
+	});
+
+	canvas.addEventListener('click', e => {
+		if (dragNode) return;
+		const rect = canvas.getBoundingClientRect();
+		const node = getNodeAt(e.clientX - rect.left, e.clientY - rect.top);
+		if (node) window.location.href = node.href;
+	});
+
+	let loopStarted = false;
+
+	function startLoop() {
+		initPositions();
+		loopStarted = true;
+		(function loop() { simulate(); draw(); requestAnimationFrame(loop); })();
+	}
+	</script>
+
+</body>
+</html>

@@ -1,227 +1,353 @@
 <!doctype html>
-<html lang="en"></html>
-<html>
+<html lang="en">
 <head>
-
 	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-    
-<link rel="stylesheet" href="style.css">
-<title>Painting</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+	<title>Art — Carey Linda Crooks</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+
+		body {
+			font-family: 'Inter', 'Space Grotesk', sans-serif;
+			font-weight: 400;
+			background-color: #fefdf9;
+			color: #2c2420;
+			height: 100vh;
+			overflow: hidden;
+			display: flex;
+		}
+
+		a { color: #2c2420; text-decoration: none; }
+		a:hover { text-decoration: underline; text-decoration-color: #c4b5aa; }
+
+		.text-panel {
+			width: 40%;
+			height: 100vh;
+			position: fixed;
+			left: 0;
+			top: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			padding: 90px 60px 60px 80px;
+			border-right: 1px solid rgba(92, 74, 61, 0.12);
+			overflow: hidden;
+		}
+
+		.bio-content {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			min-height: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.bio-content.is-hidden {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.form-content {
+			display: none;
+			flex-direction: column;
+			flex: 1;
+			min-height: 0;
+			overflow-y: auto;
+		}
+
+		.form-content.is-visible {
+			display: flex;
+		}
+
+		.form-content::-webkit-scrollbar { width: 0; }
+
+		.form-close {
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+			cursor: pointer;
+			background: none;
+			border: none;
+			font-family: inherit;
+			padding: 0;
+			margin-bottom: 28px;
+			text-align: left;
+			transition: color 0.15s ease;
+		}
+
+		.form-close:hover { color: rgba(44, 36, 32, 0.7); }
+
+		.back-link {
+			position: absolute;
+			top: 36px;
+			left: 80px;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.back-link:hover { color: rgba(44, 36, 32, 0.7); }
+
+		.series-label {
+			font-size: 11px;
+			font-weight: 400;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.3);
+			margin-bottom: 12px;
+		}
+
+		.series-title {
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 1.3;
+			letter-spacing: 0;
+			color: rgba(44, 36, 32, 0.7);
+			margin-bottom: 24px;
+		}
+
+		.series-description {
+			font-size: 14px;
+			line-height: 1.65;
+			color: rgba(44, 36, 32, 0.5);
+			max-width: 400px;
+			margin-bottom: 40px;
+		}
+
+		.series-meta {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		.series-meta dt {
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: #8a7568;
+			margin-bottom: 2px;
+		}
+
+		.series-meta dd {
+			font-size: 15px;
+			line-height: 1.4;
+			color: #2c2420;
+		}
+
+		.image-panel {
+			width: 60%;
+			margin-left: 40%;
+			height: 100vh;
+			overflow-y: auto;
+			padding: 60px 60px;
+		}
+
+		.image-panel::-webkit-scrollbar { width: 0; }
+
+		.commission-link {
+			display: inline-block;
+			margin-top: auto;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.35);
+			text-decoration: underline;
+			text-decoration-color: rgba(196, 181, 170, 0.4);
+			text-underline-offset: 3px;
+			transition: color 0.15s ease, text-decoration-color 0.15s ease;
+			cursor: pointer;
+			background: none;
+			border: none;
+			font-family: inherit;
+			padding: 0;
+			text-align: left;
+		}
+
+		.commission-link:hover {
+			color: rgba(44, 36, 32, 0.75);
+			text-decoration-color: rgba(44, 36, 32, 0.35);
+		}
+
+		.panel-caption {
+			font-size: 10px;
+			font-weight: 400;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.25);
+			padding-bottom: 24px;
+			margin-bottom: 48px;
+			border-bottom: 1px solid rgba(92, 74, 61, 0.12);
+		}
+
+		.series-entry {
+			margin-bottom: 72px;
+		}
+
+		.series-entry:last-child {
+			margin-bottom: 80px;
+		}
+
+		.series-entry > a {
+			display: block;
+		}
+
+		.series-entry > a:hover { text-decoration: none; }
+
+		.series-entry img {
+			width: 100%;
+			display: block;
+		}
+
+		.entry-meta {
+			margin-top: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.entry-title {
+			font-size: 14px;
+			font-weight: 400;
+			letter-spacing: 0;
+			color: rgba(44, 36, 32, 0.65);
+		}
+
+		.entry-year {
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.entry-description {
+			font-size: 12px;
+			line-height: 1.6;
+			color: rgba(44, 36, 32, 0.45);
+			max-width: 520px;
+		}
+
+		.entry-link {
+			display: inline-block;
+			margin-top: 12px;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+			text-decoration: underline;
+			text-decoration-color: rgba(196, 181, 170, 0.4);
+			text-underline-offset: 3px;
+			transition: color 0.15s ease, text-decoration-color 0.15s ease;
+		}
+
+		.series-entry > a:hover .entry-link {
+			color: rgba(44, 36, 32, 0.7);
+			text-decoration-color: rgba(44, 36, 32, 0.4);
+		}
+
+		@media (max-width: 768px) {
+			body {
+				flex-direction: column;
+				height: auto;
+				overflow: auto;
+			}
+
+			.text-panel {
+				width: 100%;
+				height: auto;
+				position: relative;
+				padding: 80px 30px 40px;
+				border-right: none;
+				border-bottom: 1px solid rgba(92, 74, 61, 0.12);
+			}
+
+			.back-link { left: 24px; top: 24px; }
+
+			.series-title { font-size: 22px; }
+
+			.image-panel {
+				width: 100%;
+				margin-left: 0;
+				height: auto;
+				overflow: visible;
+				padding: 30px;
+			}
+		}
+	</style>
 </head>
-
-
-
 <body>
-	
 
-	
-    <a href="index.html"><img src="images/einstein.svg"></a>
-			
-	<h1>Carey Linda Crooks / Painting</h1>
+	<div class="text-panel">
+		<a href="index-v9.html" class="back-link">&larr; Back</a>
 
-  
+		<!-- Bio view -->
+		<div class="bio-content" id="bioContent">
+			<p class="series-label">Arts Portfolio</p>
+			<h1 class="series-title">Carey Linda Crooks</h1>
 
-	<div class= "bio">
-		
+			<p class="series-description">
+				Engaging with the tension between the artificial and the sublime in human perception.
+			</p>
 
+			<button class="commission-link" id="openForm">Open for commissions &rarr;</button>
 		</div>
-		
-		
-	
-<div class="gallery-container">
-    <div class="gallery">
-       
-       
-        <figure class="painting">
-            <a href="images/rock2.jpg" data-lightbox="paintings" data-title="Rock Collection 2">
-                <img src="images/rock2.jpg" alt="Rock Collection">
-            </a>
-            <figcaption>Rock Collection II, oil on canvas</figcaption>
-        </figure>
 
-        <figure class="painting">
-            <a href="images/rock1.jpg" data-lightbox="paintings" data-title="Rock Collection 2">
-                <img src="images/rock1.jpg" alt="Rock Collection">
-            </a>
-            <figcaption>Rock Collection I, oil on canvas</figcaption>
-        </figure>
-        
+		<!-- Commission form view -->
+		<div class="form-content" id="formContent">
+			<button class="form-close" id="closeForm">&larr; Back</button>
+			<iframe data-tally-src="https://tally.so/embed/81dDQY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="415" frameborder="0" marginheight="0" marginwidth="0" title="Let's Start a Project"></iframe>
+		</div>
+	</div>
 
-        <figure class="painting">
-            <a href="images/hunt.jpeg" data-lightbox="paintings" data-title="Huntington">
-                <img src="images/hunt.jpeg" alt="Huntington">
-            </a>
-            <figcaption>Huntington, oil on canvas</figcaption>
-        </figure>
-        
-      
+	<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+	<script>
+		document.getElementById('openForm').addEventListener('click', () => {
+			document.getElementById('bioContent').classList.add('is-hidden');
+			document.getElementById('formContent').classList.add('is-visible');
+		});
+		document.getElementById('closeForm').addEventListener('click', () => {
+			document.getElementById('bioContent').classList.remove('is-hidden');
+			document.getElementById('formContent').classList.remove('is-visible');
+		});
+	</script>
 
-        <figure class="painting">
-            <a href="images/lightplsy copy.jpeg" data-lightbox="paintings" data-title="lightsplay">
-                <img src="images/lightplsy copy.jpeg" alt="Lightsplay">
-            </a>
-            <figcaption>Untitled, oil on canvas</figcaption>
-        </figure>
+	<div class="image-panel">
 
-        <figure class="painting">
-            <a href="images/P1020690.JPG" data-lightbox="paintings" data-title="P1020690.JPG">
-                <img src="images/P1020690.JPG" alt="Giverny">
-            </a>
-            <figcaption>Giverny, oil on canvas</figcaption>
-        </figure>
+		<p class="panel-caption">Recent series</p>
 
-      
-        
-        <figure class="painting">
-            <a href="images/origins.JPG" data-lightbox="paintings" data-title="Origins">
-                <img src="images/origins.JPG" alt="Origins">
-            </a>
-            <figcaption>Origins, oil on canvas</figcaption>
-        </figure>
-        
-        <figure class="painting">
-            <a href="images/ear.png" data-lightbox="paintings" data-title="Untitled, 2020">
-                <img src="images/ear.png" alt="Ear painting">
-            </a>
-            <figcaption>Untitled, oil on canvas, 2020</figcaption>
-        </figure>
-        
-        <figure class="painting">
-            <a href="images/lesea.jpg" data-lightbox="paintings" data-title="Untitled">
-                <img src="images/lesea.jpg" alt="Sea painting">
-            </a>
-            <figcaption>Untitled, oil on canvas</figcaption>
-        </figure>
-        <figure class="painting">
-            <a href="images/floor copy 2.jpeg" data-lightbox="paintings" data-title="Untitled">
-                <img src="images/floor copy 2.jpeg" alt="x">
-            </a>
-            <figcaption>Untitled, oil on canvas</figcaption>
-        </figure>
-    </div>
-</div>
+		<div class="series-entry">
+			<a href="rockcollection.html">
+				<img src="images/paintings/1. Crooks-Carey-RockCollectionI-2024.jpg" alt="Rock Collection">
+				<div class="entry-meta">
+					<span class="entry-title">Rock Collection</span>
+					<span class="entry-year">2024 — 2025</span>
+					<p class="entry-description">Studies of geological forms. Pebbles, shells, and loose artifacts rendered in monumental compositions.</p>
+					<span class="entry-link">View series &rarr;</span>
+				</div>
+			</a>
+		</div>
 
-<style>  /* Grid Responsiveness with the help of Claude*/
-    /* Gallery Container */
-    .gallery-container {
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    
-    /* Gallery Layout - Flexbox for consistent row heights */
-    .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: flex-start; /* Left alignment */
-    }
-    
-    /* Individual Painting Container */
-    .painting {
-        margin: 0;
-        padding: 0;
-        flex-grow: 0; /* Don't grow to fill space */
-        position: relative;
-        transition: transform 0.3s ease;
-    }
-    
-   
-    
-    /* Image Styling */
-    .painting img {
-        height: 400px; 
-        width: auto;
-        object-fit: cover;
-        display: block;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 2px;
-        transition: opacity 0.3s ease;
-    }
-    
-    .painting img:hover {
-        opacity: 0.9;
-    }
-    
-    /* Caption Styling */
-    figcaption {
-        margin-top: 10px;
-        margin-bottom: 20px;
-        text-align: left; 
-        font-style: italic;
-        font-size: 12px;
-        color: #333;
-        width: 100%;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .painting img {
-            height: 300px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .gallery {
-            display: block;
-        }
-        
-        .painting {
-            margin-bottom: 20px;
-        }
-        
-        .painting img {
-            width: 100%;
-            height: auto;
-        }
-    }
-</style>
+		<div class="series-entry">
+			<a href="martianlandscapes.html">
+				<img src="images/paintings/6. Crooks-Carey-Paposo- MartianLandscapes-2025.png" alt="Martian Landscapes">
+				<div class="entry-meta">
+					<span class="entry-title">Martian Landscapes</span>
+					<span class="entry-year">2025</span>
+					<p class="entry-description">Painted terrains of the red planet.</p>
+					<span class="entry-link">View series &rarr;</span>
+				</div>
+			</a>
+		</div>
 
-<script>
-    // Script to adjust image widths based on their aspect ratio
-    document.addEventListener('DOMContentLoaded', function() {
-        const paintings = document.querySelectorAll('.painting');
-        
-        // Calculate width for each image based on its aspect ratio
-        function adjustImageWidths() {
-            paintings.forEach(painting => {
-                const img = painting.querySelector('img');
-                
-                if (img.complete) {
-                    // Calculate aspect ratio
-                    const aspectRatio = img.naturalWidth / img.naturalHeight;
-                    
-                    // Set width based on the target height (400px)
-                    const targetWidth = 400 * aspectRatio;
-                    
-                    // Add extra width for landscape images
-                    if (aspectRatio > 1) {
-                        // For landscape: give proportionally more width
-                        painting.style.flexBasis = `${targetWidth}px`;
-                    } else {
-                        // For portrait: give standard width
-                        painting.style.flexBasis = `${targetWidth}px`;
-                    }
-                }
-            });
-        }
-        
-        // Run when images are loaded
-        paintings.forEach(painting => {
-            const img = painting.querySelector('img');
-            if (img.complete) {
-                adjustImageWidths();
-            } else {
-                img.onload = adjustImageWidths;
-            }
-        });
-        
-        // Re-adjust on window resize
-        window.addEventListener('resize', adjustImageWidths);
-    });
-</script>
-       
+		<div class="series-entry">
+			<a href="molehillmountains.html">
+				<img src="images/paintings/4. Crooks-Carey-MolehillMountainsI_series-2025.png" alt="Molehill Mountains">
+				<div class="entry-meta">
+					<span class="entry-title">Molehill Mountains</span>
+					<span class="entry-year">2025 — 2026</span>
+					<p class="entry-description">Triptych paintings that play with the perception of scale.</p>
+					<span class="entry-link">View series &rarr;</span>
+				</div>
+			</a>
+		</div>
+
+	</div>
+
+</body>
+</html>
