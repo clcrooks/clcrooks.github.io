@@ -1,0 +1,353 @@
+@charset "UTF-8";
+
+/* =============================================
+   v9 — GLASS CURSOR INTERFACE
+   The painting fills the viewport, blurred.
+   The mouse cursor is a glass shape that
+   clears the frost and reveals the painting.
+
+   Three-layer technique:
+     .painting   — sharp image, full viewport
+     .frost       — blurred copy + warm tint
+     .lens-clear  — background-attachment:fixed
+                    re-pins the sharp image
+                    inside the moving shape
+   ============================================= */
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	/* Hide system cursor — the lens IS the cursor */
+	cursor: none;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	font-weight: 400;
+	background: #fefdf9;
+	color: #2c2420;
+	overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; cursor: none; }
+
+/* SVG filter definition — hidden, zero size */
+.filters-def {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+/* =============================================
+   SCENE — full-viewport canvas
+   ============================================= */
+.scene {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	/* Clickable — receives the zone-click handler */
+	cursor: none;
+}
+
+/* =============================================
+   LAYER 1: Sharp painting
+   background-attachment: fixed keeps it pinned
+   to the viewport — critical for lens alignment
+   ============================================= */
+.painting {
+	position: absolute;
+	inset: 0;
+	background:
+		url('images/PXL_20260223_202538116.RAW-01.COVER (1).jpg')
+		center / cover
+		fixed;
+}
+
+/* =============================================
+   LAYER 2a: Blurred copy
+   Slightly over-scaled to prevent blur-edge
+   artifacts at the viewport boundary
+   ============================================= */
+.frost {
+	position: absolute;
+	inset: -40px;
+	background:
+		url('images/PXL_20260223_202538116.RAW-01.COVER (1).jpg')
+		center / cover
+		fixed;
+	filter: blur(22px) saturate(0.5) brightness(1.15);
+}
+
+/* LAYER 2b: Warm white tint — separate from blur
+   so the tint itself isn't blurred */
+.frost-tint {
+	position: absolute;
+	inset: 0;
+	background: rgba(254, 253, 249, 0.52);
+}
+
+/* =============================================
+   BYLINE — fixed bottom-left, very quiet
+   v3 style: Inter, small
+   ============================================= */
+.byline {
+	position: absolute;
+	bottom: 36px;
+	left: 40px;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	pointer-events: none;
+}
+
+.byline-name {
+	font-size: 12px;
+	font-weight: 400;
+	letter-spacing: 0.3px;
+	color: rgba(44, 36, 32, 0.45);
+}
+
+.byline-sub {
+	font-size: 10px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	color: rgba(44, 36, 32, 0.2);
+}
+
+/* =============================================
+   CLICK ZONES
+   Invisible, sit below the frost, make the
+   correct region of the page linkable.
+   (Used as fallback / accessibility;
+    JS click handler on .scene is primary)
+   ============================================= */
+.zone {
+	position: fixed;
+	z-index: 1;
+	display: block;
+	cursor: none;
+}
+
+.zone-about {
+	top: 0; left: 0; right: 0;
+	height: 36%;
+}
+
+.zone-design {
+	top: 36%; left: 0;
+	width: 52%; bottom: 0;
+}
+
+.zone-art {
+	top: 36%; left: 52%;
+	right: 0; bottom: 0;
+}
+
+/* =============================================
+   LAYER 3: THE GLASS LENS
+   ============================================= */
+.lens {
+	position: fixed;
+	width: 240px;
+	height: 300px;
+	/* NO transform here — any transform on this element
+	   breaks background-attachment:fixed on its children.
+	   Centering offset (-120px, -150px) is applied in JS. */
+	z-index: 10;
+	pointer-events: none;
+
+	/* Hidden until first mouse move */
+	opacity: 0;
+	transition: opacity 0.6s ease;
+}
+
+.lens.is-visible {
+	opacity: 1;
+}
+
+/*
+   Shape morphing:
+   clip-path (and SVG d) transition between three
+   zone-specific paths, each echoing a painted form.
+   All paths share the same structure: M + 5×C + Z
+   so CSS can interpolate between them.
+
+   Zone shapes (in 240×300 space):
+     About          — compact centred oval (small top-left ovals)
+     Design&Research— wide organic asymmetric (big bottom-left oval)
+     Art            — squarish rounded rect  (right nested structure)
+*/
+.lens-clear,
+.lens-sheen {
+	position: absolute;
+	inset: 0;
+	/* Default shape — rounded triangle, matches Design & Research on load */
+	clip-path: path('M 120,18 C 162,15 222,95 232,195 C 240,248 218,278 172,282 C 128,286 65,284 22,280 C -15,274 -12,228 15,168 C 38,95 82,20 120,18 Z');
+	transition: clip-path 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SVG edge outline morphs in sync */
+.lens-edge path {
+	transition: d 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The magnifying glass window.
+   overflow:hidden clips the scaled img.
+   SVG filter adds glass-refraction distortion
+   to the already-clipped output. */
+.lens-clear {
+	overflow: hidden;
+	filter: url(#glass-distort) brightness(1.06) saturate(1.04);
+}
+
+/* The actual image — sized and positioned per frame by JS.
+   object-fit:cover matches the .painting background-size:cover. */
+.lens-img {
+	position: absolute;
+	object-fit: cover;
+	object-position: center;
+	/* width / height / left / top / transform set by JS */
+	display: block;
+	pointer-events: none;
+}
+
+/* Subtle sheen — simulates light catching the glass surface */
+.lens-sheen {
+	background: radial-gradient(
+		ellipse 60% 40% at 65% 22%,
+		rgba(255, 255, 255, 0.18) 0%,
+		transparent 70%
+	);
+	mix-blend-mode: overlay;
+}
+
+/* Edge outline — 1px glass rim */
+.lens-edge {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+/* Zone label — small white text, centered in lens */
+.lens-label {
+	position: absolute;
+	/* Visually center within the organic shape */
+	top: 58%;
+	left: 38%;
+	transform: translate(-50%, -50%);
+	font-size: 11px;
+	font-weight: 400;
+	letter-spacing: 0.3px;
+	color: rgba(255, 255, 255, 0.82);
+	white-space: nowrap;
+	pointer-events: none;
+	transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.lens-label.label-fade {
+	opacity: 0;
+	transform: translate(-50%, calc(-50% + 4px));
+}
+
+/* =============================================
+   ABOUT SECTION
+   Scrolls in below the fixed scene.
+   v3 typography: Inter, 30px, warm dark
+   ============================================= */
+.about-section {
+	position: relative;
+	z-index: 1;
+	margin-top: 100vh; /* sits below the full-viewport scene */
+	padding: 100px 80px 120px;
+	max-width: 840px;
+	background: #fefdf9;
+}
+
+.about-text {
+	font-size: 30px;
+	font-weight: 400;
+	line-height: 1.45;
+	color: #2c2420;
+	margin-bottom: 36px;
+}
+
+.about-aside {
+	font-size: 22px;
+	color: rgba(44, 36, 32, 0.5);
+	margin-bottom: 52px;
+}
+
+.about-links {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	font-size: 22px;
+	color: rgba(44, 36, 32, 0.4);
+}
+
+.about-links a {
+	color: #2c2420;
+	text-decoration: underline;
+	text-decoration-color: #c4b5aa;
+	text-underline-offset: 3px;
+	cursor: default;
+	transition: text-decoration-color 0.2s;
+}
+
+.about-links a:hover {
+	text-decoration-color: #2c2420;
+}
+
+/* =============================================
+   GYRO PROMPT — tap-to-enable on touch devices
+   ============================================= */
+.gyro-prompt {
+	display: none;
+	position: fixed;
+	bottom: 36px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 20;
+	font-family: 'Inter', sans-serif;
+	font-size: 10px;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	color: rgba(44, 36, 32, 0.4);
+	white-space: nowrap;
+	cursor: pointer;
+	padding: 20px 28px; /* generous tap target */
+	transition: opacity 0.5s ease;
+}
+
+.gyro-prompt.hidden {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* =============================================
+   RESPONSIVE — gyroscope drives the lens
+   on touch/no-hover devices
+   ============================================= */
+@media (hover: none) {
+	html, body { cursor: auto; }
+	a { cursor: auto; }
+	.scene { cursor: auto; }
+	.byline-sub { display: none; }
+}
+
+@media (max-width: 768px) {
+	.about-section { padding: 80px 36px 100px; }
+	.about-text { font-size: 22px; }
+	.about-aside, .about-links { font-size: 18px; }
+}

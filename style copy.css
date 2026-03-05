@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/* CSS Document */
+* {
+  box-sizing: border-box;
+}
+  
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+}
+
+/* Grid Layout with 3 Items Per Row */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Base Styling for Each Artwork */
+.grid-item {
+    position: relative;
+    text-align: center;
+}
+
+/* Apply Different Aspect Ratios */
+
+/* Different Aspect Ratios for Portrait vs Landscape */
+.landscape .einstein-tile {
+    aspect-ratio: 3 / 2; /* Wider for landscape images */
+}
+
+.portrait .einstein-tile {
+    aspect-ratio: 2 / 3; /* Taller for portrait images */
+}
+
+/* Image Styling */
+.grid-item .einstein-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Title Styling */
+.grid-item .title {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+}

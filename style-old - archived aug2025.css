@@ -1,0 +1,214 @@
+@charset "UTF-8";
+/* CSS Document */
+* {
+  box-sizing: border-box;
+}
+  
+body, input, select, button, textarea {
+		color: #000000
+			;
+	
+	}
+
+body {
+
+	background-color: #FFFDF8;
+	
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+padding: 4%;
+}
+
+a {
+color:#000000;
+text-decoration-color: #cdc3bd
+
+}
+
+
+a:hover {
+    color:#000000;
+    text-decoration-color: #cdc3bd
+	}
+
+    a.one:link {text-decoration:underline; text-decoration-color: #cdc3bd;}
+a.one:hover { background-color: #eee6e1;}
+
+h1 {
+	    
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 400;
+		line-height: 1.75;
+		margin: 0 0 1em 0;
+    padding-left: ;
+	}
+
+h2 {
+	    
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 300;
+		line-height: 1.75;
+		margin: 0 0 1em 0;
+    padding-left: ;
+	}
+
+p {	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 300;
+		line-height: 1.75;
+	margin: 0 0 2em 0;
+}
+
+
+
+
+    .circle-text {
+        display: float;
+        padding: 5px 7px;
+        border: .5px solid #000;
+        border-radius: 100px;
+        text-align: center;
+        font-size: 8pt;
+      }
+
+
+
+
+	
+.bio {
+	float: left;
+	max-width: 50%;
+	
+  }
+
+
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.grid-item {
+    position: relative;
+}
+
+.image-container {
+    position: relative;
+    height: 400px; /* Set your desired fixed height */
+    overflow: hidden;
+    border-radius: 8px; /* Optional: rounded corners */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This crops the image to fill the container */
+    object-position: center; /* Centers the crop - you can adjust this */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    text-align: center;
+}
+
+.image-container:hover .overlay {
+    opacity: 1;
+}
+
+.image-container:hover img {
+    transform: scale(1.05);
+}
+
+.overlay .title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.overlay .circle-text {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 2px solid white;
+    border-radius: 50px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+
+.gallery {
+    float:left;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    max-width: 100%;
+    margin: auto;
+   
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(69, 68, 68, 0.2);
+}
+
+.gallery figure {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+figcaption {
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 300;
+		line-height: 1.75;
+	
+    text-align: left;
+    margin-top: 5px;
+ 
+}
+
+
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/*@media screen and (min-width: 80rem) 
+	
+	

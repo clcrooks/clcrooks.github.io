@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+	<title>Molehill Mountains — Carey Linda Crooks</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+
+		body {
+			font-family: 'Inter', 'Space Grotesk', sans-serif;
+			font-weight: 400;
+			background-color: #fefdf9;
+			color: #2c2420;
+			height: 100vh;
+			overflow: hidden;
+			display: flex;
+		}
+
+		a { color: #2c2420; text-decoration: none; }
+		a:hover { text-decoration: underline; text-decoration-color: #c4b5aa; }
+
+		.text-panel {
+			width: 40%;
+			height: 100vh;
+			position: fixed;
+			left: 0;
+			top: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 60px 60px 60px 80px;
+			border-right: 1px solid rgba(92, 74, 61, 0.12);
+		}
+
+		.back-link {
+			position: absolute;
+			top: 36px;
+			left: 80px;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.back-link:hover { color: rgba(44, 36, 32, 0.7); }
+
+		.series-label {
+			font-size: 11px;
+			font-weight: 400;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.3);
+			margin-bottom: 12px;
+		}
+
+		.series-title {
+			font-family: 'PP Agrandir', 'Space Grotesk', sans-serif;
+			font-size: 28px;
+			font-weight: 400;
+			line-height: 1.2;
+			letter-spacing: -0.3px;
+			color: rgba(44, 36, 32, 0.7);
+			margin-bottom: 24px;
+		}
+
+		.series-year {
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+			margin-bottom: 36px;
+		}
+
+		.series-description {
+			font-size: 14px;
+			line-height: 1.65;
+			color: rgba(44, 36, 32, 0.5);
+			max-width: 400px;
+			margin-bottom: 36px;
+		}
+
+		.series-meta {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+
+		.series-meta dt {
+			font-size: 10px;
+			font-weight: 400;
+			letter-spacing: 1px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		.series-meta dd {
+			font-size: 13px;
+			line-height: 1.4;
+			color: rgba(44, 36, 32, 0.55);
+		}
+
+		.image-panel {
+			width: 60%;
+			margin-left: 40%;
+			height: 100vh;
+			overflow-y: auto;
+			padding: 60px 60px;
+		}
+
+		.image-panel::-webkit-scrollbar { width: 0; }
+
+		.painting {
+			margin-bottom: 48px;
+		}
+
+		.painting:last-child {
+			margin-bottom: 60px;
+		}
+
+		.painting img {
+			width: 100%;
+			display: block;
+		}
+
+		.painting-caption {
+			margin-top: 12px;
+			font-size: 12px;
+			color: rgba(44, 36, 32, 0.3);
+		}
+
+		@media (max-width: 768px) {
+			body {
+				flex-direction: column;
+				height: auto;
+				overflow: auto;
+			}
+
+			.text-panel {
+				width: 100%;
+				height: auto;
+				position: relative;
+				padding: 80px 30px 40px;
+				border-right: none;
+				border-bottom: 1px solid rgba(92, 74, 61, 0.12);
+			}
+
+			.back-link { left: 24px; top: 24px; }
+
+			.series-title { font-size: 22px; }
+
+			.image-panel {
+				width: 100%;
+				margin-left: 0;
+				height: auto;
+				overflow: visible;
+				padding: 30px;
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<div class="text-panel">
+		<a href="art.html" class="back-link">&larr; Back</a>
+
+		<p class="series-label">Painting Series</p>
+		<h1 class="series-title">Molehill Mountains</h1>
+		<p class="series-year">2025 — 2026</p>
+
+		<p class="series-description">This series of three oil paintings forms a landscape made of rough almost quilted textures and patterns. Looking quickly, the three panels may form a mountain range. But on closer inspection details emerge that suggest a wildly different scale. Closer now, the shapes seem to suggest both simultaneously. Is this a Californian mountain range at a bird’s-eye view, or a row of desert shrubs seen from the base of the earth? The one carries the other.</p>
+
+		<dl class="series-meta">
+			<div>
+				<dt>Medium</dt>
+				<dd>Oil on canvas</dd>
+			</div>
+			<div>
+				<dt>Format</dt>
+				<dd>Triptych</dd>
+			</div>
+			<div>
+				<dt>Artist</dt>
+				<dd>Carey Crooks</dd>
+			</div>
+		</dl>
+	</div>
+
+	<div class="image-panel">
+		<div class="painting">
+			<img src="images/paintings/4. Crooks-Carey-MolehillMountainsI_series-2025.png" alt="Molehill Mountains I">
+			<p class="painting-caption">Molehill Mountains I, 2025</p>
+		</div>
+		
+	</div>
+
+</body>
+</html>

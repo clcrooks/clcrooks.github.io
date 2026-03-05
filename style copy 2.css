@@ -1,0 +1,130 @@
+@charset "UTF-8";
+/* CSS Document */
+* {
+  box-sizing: border-box;
+}
+  
+body, input, select, button, textarea {
+		color: #000000
+			;
+	
+	}
+
+body {
+background-color: #FFFDF8;
+	;
+	
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+padding: 4%;
+}
+
+a {
+	
+color: black;
+text-decoration: none;
+}
+
+a:hover {
+	
+	color: #703411;
+	text-decoration:underline;
+	}
+
+
+h1 {
+	    
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 400;
+		line-height: 1.75;
+		margin: 0 0 1em 0;
+    padding-left: ;
+	}
+
+h2 {
+	    
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 300;
+		line-height: 1.75;
+		margin: 0 0 1em 0;
+    padding-left: ;
+	}
+
+p {	font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-size: 12pt;
+		font-weight: 300;
+		line-height: 1.75;
+	margin: 0 0 2em 0;
+}
+
+
+
+
+
+	
+.bio {
+	float: left;
+	max-width: 50%;
+	
+  }
+
+
+
+
+
+.grid-container {
+	float: left;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.grid-item {
+    background: #FFFDF8;
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grid-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.grid-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 2px;
+}
+
+
+
+.grid-item .title {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    
+}
+
+.grid-item .einstein-tile {
+    width: 100%;
+    position: relative;
+    clip-path: path("M0,0 L50,0 L100,50 L100,100 L50,100 L0,50 Z"); /* Einstein tile shape */
+    -webkit-clip-path: path("M0,0 L50,0 L100,50 L100,100 L50,100 L0,50 Z");
+    overflow: hidden;
+}
+
+.grid-item .einstein-tile img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+/*@media screen and (min-width: 80rem) 
+	
+	
