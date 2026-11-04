@@ -42,17 +42,19 @@
 			top: 36px;
 			left: 80px;
 			font-size: 12px;
-			color: rgba(44, 36, 32, 0.3);
+			color: rgba(44, 36, 32, 0.5);
 		}
 
 		.back-link:hover { color: rgba(44, 36, 32, 0.7); }
+
+		h1 { font-weight: 400; }
 
 		.series-label {
 			font-size: 11px;
 			font-weight: 400;
 			letter-spacing: 1.2px;
 			text-transform: uppercase;
-			color: rgba(44, 36, 32, 0.3);
+			color: rgba(44, 36, 32, 0.5);
 			margin-bottom: 12px;
 		}
 
@@ -68,14 +70,14 @@
 
 		.series-year {
 			font-size: 12px;
-			color: rgba(44, 36, 32, 0.3);
+			color: rgba(44, 36, 32, 0.5);
 			margin-bottom: 36px;
 		}
 
 		.series-description {
 			font-size: 14px;
 			line-height: 1.65;
-			color: rgba(44, 36, 32, 0.5);
+			color: rgba(44, 36, 32, 0.7);
 			max-width: 400px;
 			margin-bottom: 36px;
 		}
@@ -84,6 +86,7 @@
 			display: flex;
 			flex-direction: column;
 			gap: 24px;
+			margin-top: 12px;
 		}
 
 		.series-meta dt {
@@ -91,13 +94,14 @@
 			font-weight: 400;
 			letter-spacing: 1px;
 			text-transform: uppercase;
-			color: rgba(44, 36, 32, 0.3);
+			color: rgba(44, 36, 32, 0.5);
+			margin-bottom: 2px;
 		}
 
 		.series-meta dd {
 			font-size: 13px;
 			line-height: 1.4;
-			color: rgba(44, 36, 32, 0.55);
+			color: rgba(44, 36, 32, 0.72);
 		}
 
 		.image-panel {
@@ -126,7 +130,45 @@
 		.painting-caption {
 			margin-top: 12px;
 			font-size: 12px;
-			color: rgba(44, 36, 32, 0.3);
+			color: rgba(44, 36, 32, 0.5);
+		}
+
+		.postcards-section {
+			margin-top: 60px;
+			padding-top: 48px;
+			border-top: 1px solid rgba(92, 74, 61, 0.12);
+		}
+
+		.postcards-label {
+			font-size: 11px;
+			font-weight: 400;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: rgba(44, 36, 32, 0.5);
+			margin-bottom: 8px;
+		}
+
+		.postcards-description {
+			font-size: 13px;
+			color: rgba(44, 36, 32, 0.6);
+			margin-bottom: 32px;
+		}
+
+		.postcards-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 24px;
+		}
+
+		.postcard img {
+			width: 100%;
+			display: block;
+		}
+
+		.postcard-caption {
+			margin-top: 8px;
+			font-size: 11px;
+			color: rgba(44, 36, 32, 0.5);
 		}
 
 		@media (max-width: 768px) {
@@ -155,6 +197,10 @@
 				height: auto;
 				overflow: visible;
 				padding: 30px;
+			}
+
+			.postcards-grid {
+				grid-template-columns: 1fr;
 			}
 		}
 	</style>
@@ -186,6 +232,55 @@
 		<div class="painting">
 			<img src="images/paintings/6. Crooks-Carey-Paposo- MartianLandscapes-2025.png" alt="Paposo — Martian Landscapes">
 			<p class="painting-caption">Paposo, 2025</p>
+		</div>
+
+		<div class="painting">
+			<img src="images/paintings/Sol 1349.jpg" alt="Sol 1349">
+			<p class="painting-caption">Sol 1349, 2025</p>
+		</div>
+
+		<div class="postcards-section">
+			<p class="postcards-label">Martian Postcards</p>
+			<p class="postcards-description">Studies of landscapes captured by the Perseverance rover</p>
+
+			<div class="postcards-grid">
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 682_ Right Mastcam-Z Camera.png" alt="Sol 682 (Right Mastcam-Z Camera)">
+					<p class="postcard-caption">Sol 682 (Right Mastcam-Z Camera)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars_Perseverance_ZR0_1412_0792297259_894EBY_N0680142ZCAM09468_0340LMJ.png" alt="Sol 1412 (Mastcam-Z)">
+					<p class="postcard-caption">Sol 1412 (Mastcam-Z)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars_Perseverance_ZL0_1701_0817937907_113EBY_N0820000ZCAM09785_1100LMJ.png" alt="Sol 1701 (Mastcam-Z)">
+					<p class="postcard-caption">Sol 1701 (Mastcam-Z)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 1785_ WATSON Camera.png" alt="Sol 1785 (WATSON Camera)">
+					<p class="postcard-caption">Sol 1785 (WATSON Camera)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 1792_ Front Left Hazard Avoidance Camera (Hazcam).png" alt="Sol 1792 (Front Left Hazcam)">
+					<p class="postcard-caption">Sol 1792 (Front Left Hazcam)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 1797_ WATSON Camera.png" alt="Sol 1797 (WATSON Camera)">
+					<p class="postcard-caption">Sol 1797 (WATSON Camera)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 1844_ Left Mastcam-Z Camera.png" alt="Sol 1844 (Left Mastcam-Z Camera)">
+					<p class="postcard-caption">Sol 1844 (Left Mastcam-Z Camera)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 1852_ Left Mastcam-Z Camera.png" alt="Sol 1852 (Left Mastcam-Z Camera)">
+					<p class="postcard-caption">Sol 1852 (Left Mastcam-Z Camera)</p>
+				</div>
+				<div class="postcard">
+					<img src="images/paintings/Mars Perseverance Sol 1859_ Left Mastcam-Z Camera.png" alt="Sol 1859 (Left Mastcam-Z Camera)">
+					<p class="postcard-caption">Sol 1859 (Left Mastcam-Z Camera)</p>
+				</div>
+			</div>
 		</div>
 	</div>
 
